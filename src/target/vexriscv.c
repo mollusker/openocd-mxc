@@ -25,7 +25,7 @@
 #endif
 #include <string.h>
 #include <fcntl.h>
-#include <yaml.h>
+//#include <yaml.h>
 #include <errno.h>
 #include "algorithm.h"
 
@@ -427,6 +427,7 @@ static void vexriscv_set_instr(struct target *target, uint32_t new_instr)
 	free(t);
 }
 
+/*  disable yaml function
 static void vexriscv_yaml_ignore_block(yaml_parser_t *parser){
 	yaml_token_t  token;
 	int32_t level = 0;
@@ -517,10 +518,10 @@ static int vexriscv_parse_cpu_file(struct command_context *cmd_ctx, struct targe
 	}
 
 	yaml_parser_set_input_file(&parser, input);
-	/* Read the event sequence. */
+	//* Read the event sequence. *
 	while (!done) {
 
-		/* Get the next event. */
+		//* Get the next event. *
 		if (!yaml_parser_scan(&parser, &token))
 			goto error;
 
@@ -543,7 +544,7 @@ static int vexriscv_parse_cpu_file(struct command_context *cmd_ctx, struct targe
 		}
 
 
-		/* The application is responsible for destroying the event object. */
+		//* The application is responsible for destroying the event object. *
 
 	    if(token.type != YAML_STREAM_END_TOKEN)
 	      yaml_token_delete(&token);
@@ -552,18 +553,19 @@ static int vexriscv_parse_cpu_file(struct command_context *cmd_ctx, struct targe
 
 	}
 
-	/* Destroy the Parser object. */
+	//* Destroy the Parser object. *
 	yaml_parser_delete(&parser);
 	return ERROR_OK;
 
-	/* On error. */
+	//* On error. *
 	error:
 
-	/* Destroy the Parser object. */
+	//* Destroy the Parser object. *
 	yaml_parser_delete(&parser);
 
 	return ERROR_FAIL;
 }
+*/
 
 static int vexriscv_init_target(struct command_context *cmd_ctx, struct target *target)
 {
@@ -573,8 +575,9 @@ static int vexriscv_init_target(struct command_context *cmd_ctx, struct target *
 
 	vexriscv->iBus = NULL;
 	vexriscv->dBus = NULL;
-	if(vexriscv_parse_cpu_file(cmd_ctx, target))
-		return ERROR_FAIL;
+// disable yaml function
+//	if(vexriscv_parse_cpu_file(cmd_ctx, target))
+//		return ERROR_FAIL;
 	vexriscv->hardwareBreakpointUsed = malloc(sizeof(bool)*vexriscv->hardwareBreakpointsCount);
 	for(int i = 0;i < vexriscv->hardwareBreakpointsCount;i++) vexriscv->hardwareBreakpointUsed[i] = 0;
 
